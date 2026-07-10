@@ -1,1 +1,13 @@
-
+   # Data folders (Too big for GitHub)
+   data/raw/
+   data/processed/
+   
+   # Model weights (Too big for GitHub)
+   models/*.pth
+   models/*.h5
+   
+   # Python cache and virtual environments
+   __pycache__/
+   *.pyc
+   venv/
+   .env
