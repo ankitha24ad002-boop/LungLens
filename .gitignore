@@ -9,5 +9,8 @@
    __pycache__/
    *.pyc
    venv/
-   .env
-.ipynb_checkpoints/
+   .env 
+
+# Jupyter checkpoints
+**/.ipynb_checkpoints/
+notebooks/*-checkpoint.ipynb
