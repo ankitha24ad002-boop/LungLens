@@ -1,6 +1,5 @@
    # Data folders (Too big for GitHub)
-   data/raw/
-   data/processed/
+   data/
    
    # Model weights (Too big for GitHub)
    models/*.pth
