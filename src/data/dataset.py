@@ -1,48 +1,52 @@
 import os
-from torch.utils.data import Dataset
 from PIL import Image
-
+from torch.utils.data import Dataset
 
 class LungDataset(Dataset):
 
-    def __init__(self, image_dir, transform=None):
+    def __init__(self, root_dir, transform=None):
 
-        self.image_dir = image_dir
         self.transform = transform
+        self.samples = []
 
-        self.images = os.listdir(image_dir)
+        self.class_names = sorted(
+            [
+                folder
+                for folder in os.listdir(root_dir)
+                if os.path.isdir(os.path.join(root_dir, folder))
+            ]
+        )
 
+        self.class_to_idx = {
+            cls: idx
+            for idx, cls in enumerate(self.class_names)
+        }
+
+        for cls in self.class_names:
+
+            class_folder = os.path.join(root_dir, cls)
+
+            for image_name in os.listdir(class_folder):
+
+                image_path = os.path.join(class_folder, image_name)
+
+                self.samples.append(
+                    (
+                        image_path,
+                        self.class_to_idx[cls]
+                    )
+                )
 
     def __len__(self):
-
-        return len(self.images)
-
+        return len(self.samples)
 
     def __getitem__(self, index):
 
-        image_name = self.images[index]
-
-        image_path = os.path.join(
-            self.image_dir,
-            image_name
-        )
+        image_path, label = self.samples[index]
 
         image = Image.open(image_path).convert("RGB")
 
-
-        # Assign labels
-        if "BACTERIA" in image_name:
-            label = 0
-
-        elif "VIRUS" in image_name:
-            label = 1
-
-        else:
-            label = -1
-
-
         if self.transform:
             image = self.transform(image)
-
 
         return image, label
