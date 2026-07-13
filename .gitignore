@@ -14,3 +14,4 @@ venv/
 # Jupyter checkpoints
 **/.ipynb_checkpoints/
 notebooks/*-checkpoint.ipynb
+uploads/
