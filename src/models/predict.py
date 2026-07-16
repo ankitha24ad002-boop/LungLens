@@ -67,3 +67,4 @@ def predict_image(image_path):
     predicted_class = label_map[str(prediction.item())]
 
     return predicted_class, confidence.item()
+    
