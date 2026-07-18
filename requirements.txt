@@ -1,13 +1,13 @@
-streamlit>=1.30.0
-fastapi>=0.110.0
-uvicorn>=0.30.0
-python-multipart>=0.0.10
 
-torch>=2.0.0
-torchvision>=0.15.0
-pillow>=10.0.0
-numpy>=1.24.0
-matplotlib>=3.7.0
-opencv-python>=4.8.0
-grad-cam>=1.5.0
+streamlit
+torch
+torchvision
+opencv-python
+numpy
+pandas
+matplotlib
+Pillow
+scikit-learn
+fastapi
+uvicorn
 
