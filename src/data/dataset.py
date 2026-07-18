@@ -6,35 +6,35 @@ class LungDataset(Dataset):
 
     def __init__(self, root_dir, transform=None):
 
+        self.root_dir = root_dir
         self.transform = transform
-        self.samples = []
 
-        self.class_names = sorted(
-            [
-                folder
-                for folder in os.listdir(root_dir)
-                if os.path.isdir(os.path.join(root_dir, folder))
-            ]
-        )
+        # Get class names (BACTERIA, VIRUS)
+        self.classes = sorted([
+            folder
+            for folder in os.listdir(root_dir)
+            if os.path.isdir(os.path.join(root_dir, folder))
+        ])
 
+        # Create label mapping
         self.class_to_idx = {
-            cls: idx
-            for idx, cls in enumerate(self.class_names)
+            class_name: idx
+            for idx, class_name in enumerate(self.classes)
         }
 
-        for cls in self.class_names:
+        self.samples = []
 
-            class_folder = os.path.join(root_dir, cls)
+        # Read every image
+        for class_name in self.classes:
+
+            class_folder = os.path.join(root_dir, class_name)
 
             for image_name in os.listdir(class_folder):
 
                 image_path = os.path.join(class_folder, image_name)
 
                 self.samples.append(
-                    (
-                        image_path,
-                        self.class_to_idx[cls]
-                    )
+                    (image_path, self.class_to_idx[class_name])
                 )
 
     def __len__(self):

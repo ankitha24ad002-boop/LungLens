@@ -5,10 +5,19 @@ from typing import Callable, Optional
 
 import streamlit as st
 
-from components.backend import get_backend_status, get_prediction_result, initialize_runtime_state
+from components.backend import (
+    get_backend_status,
+    get_prediction_result,
+    initialize_runtime_state,
+)
 from components.icons import page_label
 from components.ui import render_hero, render_metric_row
-from config import AppConfig, get_app_config, get_navigation_items, get_page_meta
+from config import (
+    AppConfig,
+    get_app_config,
+    get_navigation_items,
+    get_page_meta,
+)
 from theme import apply_theme, configure_page
 
 
@@ -36,7 +45,9 @@ def render_sidebar(config: AppConfig) -> str:
             """
             <div class="ll-card">
                 <div class="ll-section-title">Navigation</div>
-                <p class="ll-section-copy">Use the sidebar to move through the full clinician workflow.</p>
+                <p class="ll-section-copy">
+                    Use the sidebar to move through the full clinician workflow.
+                </p>
             </div>
             """,
             unsafe_allow_html=True,
@@ -53,9 +64,14 @@ def render_sidebar(config: AppConfig) -> str:
         st.markdown("")
         backend_status = get_backend_status(config)
         st.metric("Version", config.app_version)
-        st.metric("Mode", "Demo" if st.session_state.get("demo_mode", config.demo_mode) else "Live")
+        st.metric(
+            "Mode",
+            "Demo" if st.session_state.get("demo_mode", config.demo_mode) else "Live",
+        )
         st.caption(f"Backend status: {backend_status['label']}")
-        st.caption(f"API target: `{st.session_state.get('backend_base_url', config.backend_base_url)}`")
+        st.caption(
+            f"API target: `{st.session_state.get('backend_base_url', config.backend_base_url)}`"
+        )
 
     return modules[selected_label]
 
@@ -63,6 +79,7 @@ def render_sidebar(config: AppConfig) -> str:
 def render_shell_metrics(config: AppConfig) -> None:
     prediction = get_prediction_result(config)
     backend_status = get_backend_status(config)
+
     render_metric_row(
         [
             {"label": "Case ID", "value": prediction["case_id"]},
@@ -75,6 +92,7 @@ def render_shell_metrics(config: AppConfig) -> None:
 
 def main() -> None:
     config = get_app_config()
+
     configure_page(config)
     apply_theme()
     initialize_runtime_state(config)
@@ -91,14 +109,18 @@ def main() -> None:
             "Streamlit frontend",
         ],
     )
+
     render_shell_metrics(config)
     st.markdown("")
 
     page_renderer = load_page_renderer(active_module)
+
     if page_renderer is not None:
         page_renderer()
     else:
-        st.warning("This page could not be loaded. Check the page module import and render function.")
+        st.warning(
+            "This page could not be loaded. Check the page module import and render function."
+        )
 
     st.markdown(
         f"""
